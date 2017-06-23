@@ -91,8 +91,7 @@ public class MainApp extends Application {
     }
 
     public static boolean isMac() {
-//        return SystemUtils.IS_OS_MAC;
-        return false;
+        return SystemUtils.IS_OS_MAC;
     }
 
     public static MenuBar getMenuBar() {

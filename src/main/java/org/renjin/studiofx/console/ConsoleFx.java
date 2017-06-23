@@ -33,8 +33,11 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -85,6 +88,8 @@ public class ConsoleFx implements RichConsole, Runnable {
     private NameCompletion nameCompletion;
     final int SHOW_AMBIG_MAX = 10;
     CommandList commandList;
+    Map<String, Function> interpreters = new HashMap<>();
+    Function function = null;
 
     public ConsoleFx() {
         this(null, null);
@@ -140,13 +145,13 @@ public class ConsoleFx implements RichConsole, Runnable {
 
     private void print(String s, Color color) {
         runOnFxThread(() -> {
-//            outputArea.appendText(s);
+//            consoleArea.appendText(s);
 //            Set<String> style = Collections.singleton("-fx-fill: " + cssColor(color) + ";");
 
 //            Set<String> style = Collections.singleton("keyword");
 //            ReadOnlyStyledDocument sDoc = ReadOnlyStyledDocument.fromString(s, style);
 //            System.out.println("style " + sDoc.getStyleOfChar(2));
-//            outputArea.append(sDoc);
+//            consoleArea.append(sDoc);
             int start = outputArea.getLength();
             outputArea.appendText(s);
             int end = outputArea.getLength();
@@ -427,6 +432,10 @@ public class ConsoleFx implements RichConsole, Runnable {
 
     }
 
+    public void setInterpreter(String name) {
+        function = interpreters.get(name);
+    }
+
     private void acceptLine(String line) {
         StringBuilder buf = new StringBuilder();
         int lineLength = line.length();
@@ -435,12 +444,31 @@ public class ConsoleFx implements RichConsole, Runnable {
             buf.append(c);
         }
         line = buf.toString();
+        if (line.trim().startsWith("interp(\"") && line.trim().endsWith("\")")) {
+            String cmd = line.trim().substring(8);
+            String interpName = cmd.substring(0, cmd.length() - 2);
+            System.out.println("interp " + interpName);
+            if (interpName.equals("renjin")) {
+                function = null;
+            } else {
+                function = interpreters.get(interpName);
+            }
+            return;
+        }
         if (outPipe == null) {
             print("Console internal   error: cannot output ...", Color.RED);
         } else {
             try {
-                outPipe.write(line.getBytes());
-                outPipe.flush();
+                if (function != null) {
+                    if (function != null) {
+                        function.apply(line);
+                        getOut().print("> ");
+                    }
+
+                } else {
+                    outPipe.write(line.getBytes());
+                    outPipe.flush();
+                }
             } catch (IOException e) {
                 outPipe = null;
                 throw new RuntimeException("Console pipe broken...", e);
@@ -450,6 +478,12 @@ public class ConsoleFx implements RichConsole, Runnable {
 
     public void setOutputArea(InlineCssTextArea outputArea) {
         this.outputArea = outputArea;
+    }
+
+    public void addInterpreter(String name, Function<String, String> function) {
+        interpreters.put(name, function);
+        this.function = function;
+
     }
 
     public void addHandler() {

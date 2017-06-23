@@ -6,13 +6,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.InlineCssTextArea?>
+<?import org.fxmisc.richtext.CodeArea?>
 
-<BorderPane id="borderPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml" fx:controller="org.renjin.studiofx.FXMLController">
+<BorderPane id="borderPane" prefHeight="400" prefWidth="500" xmlns:fx="http://javafx.com/fxml" fx:controller="org.renjin.studiofx.FXMLController">
     <top>
         <VBox fx:id="topBar"/>
     </top>
     <center>
-        <InlineCssTextArea fx:id="outputArea" prefHeight="500" minHeight="400.0" VBox.vgrow="ALWAYS"/>
+        <SplitPane>
+            <items>
+                <SplitPane orientation="vertical">
+                    <BorderPane>
+                        <top>
+                            <Button text="Eval" onAction="#execCode"/>                                
+                        </top>
+                        <center>
+                            <CodeArea fx:id="codeArea" prefHeight="400" minHeight="100.0" VBox.vgrow="ALWAYS"/>
+
+                        </center>
+                    </BorderPane>
+                    <InlineCssTextArea fx:id="consoleArea" prefHeight="400" minHeight="100.0" VBox.vgrow="ALWAYS"/>
+                </SplitPane>
+                <BorderPane fx:id="plotPane">
+                    
+                </BorderPane>                
+            </items>
+        </SplitPane>
     </center>
 
 </BorderPane>

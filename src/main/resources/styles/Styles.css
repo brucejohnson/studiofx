@@ -1,3 +1,38 @@
 .button {
     -fx-font-weight: bold;
 }
+
+.keyword {
+    -fx-fill: red;
+    -fx-font-weight: bold;
+}
+.props {
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+.ops {
+    -fx-fill: blue;
+    -fx-font-weight: bold;
+}
+.semicolon {
+    -fx-font-weight: bold;
+}
+.paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+.bracket {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}
+.brace {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+.string {
+    -fx-fill: brown;
+}
+
+.comment {
+	-fx-fill: cadetblue;
+}
