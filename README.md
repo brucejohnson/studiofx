@@ -1,4 +1,4 @@
-# jfxplot
+# StudioFX
 StudioFX is a graphical studio that can be used with Renjin, the JVM-based interpreter for the R language ( http://renjin.org )
 
 This code currently an experiment in learning about R graphics, Renjin, and testing the possibility of adding graphics to Renjin.
