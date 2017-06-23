@@ -11,4 +11,4 @@ At bottom left is a Console, based on existing code from Renjin
 
 The right side of the display is a plotting region which uses code from https://github.com/brucejohnson/jfxplot
 
-
+![ScreenShot](screenshots/screenshot1.png)
