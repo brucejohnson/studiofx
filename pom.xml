@@ -35,12 +35,12 @@
         <dependency>
             <groupId>org.renjin</groupId>
             <artifactId>renjin-script-engine</artifactId>
-            <version>RELEASE</version>
+            <version>0.8.2399</version>
         </dependency>
         <dependency>
             <groupId>org.renjin</groupId>
             <artifactId>renjin-aether-package-loader</artifactId>
-            <version>RELEASE</version>
+            <version>0.8.2399</version>
         </dependency>
         <dependency>
             <groupId>de.codecentric.centerdevice</groupId>
